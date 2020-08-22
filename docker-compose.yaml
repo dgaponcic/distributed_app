@@ -1,0 +1,52 @@
+version: '3'
+services:
+
+  proxy:
+    build: "proxy/."
+    ports:
+      - "10000:10000"
+    networks:
+      - front
+
+  gateway:
+    build: "gateway/."
+    networks:
+      - front
+      - users_network
+      - orders_network
+
+  users_loadbalancer:
+    build: "users_service/loadbalancer/."
+    networks:
+      - users_network
+    depends_on:
+      - users_service
+
+  orders_loadbalancer:
+    build: "orders_service/loadbalancer/."
+    networks:
+      - orders_network
+    depends_on: 
+      - orders_service
+
+  users_service:
+    build: "users_service/."
+    networks:
+      - users_network
+    depends_on: 
+      - user_db
+
+  user_db:
+    build: "users_service/db/."
+    networks:
+      - users_network
+
+  orders_service:
+    build: "orders_service/."
+    networks:
+      - orders_network
+
+networks:
+  front: {} 
+  users_network: {}
+  orders_network: {}
