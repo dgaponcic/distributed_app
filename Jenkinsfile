@@ -2,7 +2,7 @@ pipeline {
     agent any 
 
     stages {
-        stage('Build Assets') {
+        stage('Build') {
             agent any 
             steps {
                 sh 'docker-compose up -d --build'
@@ -12,7 +12,7 @@ pipeline {
         stage('Test') {
             agent any
             steps {
-                sh 'pytest unit_tests/*'
+                sh 'docker exec distributed_app_proxy_1 pytest proxy/tests/end2end/limit_requests.py '
             }
         }
     }
