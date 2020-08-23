@@ -10,17 +10,21 @@ app = Flask(__name__)
 def get_headers(request):
   return {k:v for k, v in request.headers.items()}
 
+def make_request(url, headers):
+  res = requests.get(url, headers=headers)
+  return json.loads(res.content), res.status_code
+
 @app.route("/users")
 def users():
   server_url = environ.get("USERS_SERVER")
   headers = get_headers(request)
-  return json.loads(requests.get(server_url, headers=headers).content)
+  return make_request(server_url, headers)
     
 @app.route("/orders")
 def orders():
   server_url = environ.get("ORDERS_SERVER")
   headers = get_headers(request)
-  return json.loads(requests.get(server_url, headers=headers).content)
+  return make_request(server_url, headers)
     
 
 if __name__ == "__main__":
