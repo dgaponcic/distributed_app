@@ -8,6 +8,13 @@ pipeline {
                 sh 'docker-compose up -d --build'
             }
         }
+
+        stage('Test') {
+            agent any
+            steps {
+                sh 'pytest unit_tests/*'
+            }
+        }
     }
 
     post {
