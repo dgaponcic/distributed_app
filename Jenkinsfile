@@ -12,7 +12,7 @@ pipeline {
         stage('Test') {
             agent any
             steps {
-                sh 'docker exec distributed_app_proxy_1 pytest proxy/tests/end2end/limit_requests.py '
+                sh 'docker-compose exec proxy pytest proxy/tests/end2end/limit_requests.py'
             }
         }
     }
