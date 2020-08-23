@@ -63,7 +63,7 @@ def request(connection, sketch):
     response = make_request(data)
   else:
     print('banned', flush=True)
-    response = b'banned'
+    response = b'HTTP/1.1 400 Bad Request\r\n'
   connection.sendall(response)
   connection.close()
 
