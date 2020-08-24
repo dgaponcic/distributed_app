@@ -2,6 +2,7 @@ version: '3'
 services:
 
   proxy:
+    image: dgaponcic/proxy
     build: "proxy/."
     ports:
       - "10000:10000"
@@ -9,6 +10,7 @@ services:
       - front
 
   gateway:
+    image: dgaponcic/gateway
     build: "gateway/."
     networks:
       - front
@@ -16,6 +18,7 @@ services:
       - orders_network
 
   users_loadbalancer:
+    image: dgaponcic/users_loadbalancer
     build: "users_service/loadbalancer/."
     networks:
       - users_network
@@ -23,6 +26,7 @@ services:
       - users_service
 
   orders_loadbalancer:
+    image: dgaponcic/orders_lodbalancer
     build: "orders_service/loadbalancer/."
     networks:
       - orders_network
@@ -30,6 +34,7 @@ services:
       - orders_service
 
   users_service:
+    image: dgaponcic/users_service
     build: "users_service/."
     networks:
       - users_network
@@ -37,11 +42,13 @@ services:
       - user_db
 
   user_db:
+    image: dgaponcic/users_db
     build: "users_service/db/."
     networks:
       - users_network
 
   orders_service:
+    image: dgaponcic/orders_service
     build: "orders_service/."
     networks:
       - orders_network
