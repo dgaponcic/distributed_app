@@ -15,17 +15,16 @@ pipeline {
                 sh 'docker-compose exec -T proxy pytest /proxy/tests/end2end/limit_requests.py'
             }
         }
-    }
 
-    stage('Deploy') {
-        agent any
-        steps {
-            sh 'docker-compose push'
-            sh 'scp dianadont@192.168.0.125 distributed/docker-compose.yaml docker-compose.yaml'
-            sh 'ssh dianadont@192.168.0.125 docker stack deploy --compose-file docker-compose.yaml distributed_app'
+        stage('Deploy') {
+            agent any
+            steps {
+                sh 'docker-compose push'
+                sh 'scp dianadont@192.168.0.125 distributed/docker-compose.yaml docker-compose.yaml'
+                sh 'ssh dianadont@192.168.0.125 docker stack deploy --compose-file docker-compose.yaml distributed_app'
+            }
         }
     }
-
     post {
         always {
             
