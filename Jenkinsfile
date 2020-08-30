@@ -20,7 +20,7 @@ pipeline {
             agent any
             steps {
                 sh 'docker-compose push'
-                sh 'scp dianadont@192.168.0.125 distributed/docker-compose.yaml docker-compose.yaml'
+                sh 'scp docker-compose.yaml dianadont@192.168.0.125:distributed/docker-compose.yaml'
                 sh 'ssh dianadont@192.168.0.125 docker stack deploy --compose-file docker-compose.yaml distributed_app'
             }
         }
