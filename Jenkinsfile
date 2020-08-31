@@ -5,6 +5,7 @@ pipeline {
         stage('Build') {
             agent any 
             steps {
+                sh 'echo ${REMOTE_HOST}'
                 sh 'docker-compose up -d --build'
             }
         }
@@ -20,11 +21,12 @@ pipeline {
             agent any
             steps {
                 sh 'docker-compose push'
-                sh 'scp docker-compose.yaml dianadont@192.168.0.125:distributed/docker-compose.yaml'
-                sh 'ssh dianadont@192.168.0.125 docker stack deploy --compose-file docker-compose.yaml distributed_app'
+                sh 'scp docker-compose.yaml ${REMOTE_HOST}:distributed/docker-compose.yaml'
+                sh 'ssh ${REMOTE_HOST} docker stack deploy --compose-file docker-compose.yaml distributed_app'
             }
         }
     }
+    
     post {
         always {
             
