@@ -31,8 +31,6 @@ pipeline {
         always {
             
             sh 'docker-compose down'
-            // ToDo write docker compose on rpi
-            // ToDo execute "docker stack deploy --compose-file docker-compose.yaml distributed_app" on rpi
         }
     }
 }
