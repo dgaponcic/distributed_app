@@ -3,7 +3,7 @@ import queue
 import time
 
   
-class BaseClass():
+class CountMinEntry:
   def __init__(self, max_size):
     self.counter = 0
     self.times = queue.Queue(maxsize=max_size)
@@ -22,18 +22,18 @@ class BaseClass():
     return self.times
 
 
-class Count_Min_Sketch:
+class CountMinSketch:
 
   def __init__(self, rows, columns, max_size):
     self.hash_functions = [self.get_hash_function(f'salted{index}') for index in range(columns)]
     self.rows = rows
     self.columns = columns
     self.max_size = max_size
-    self.sketch = [[BaseClass(max_size) for i in range(rows)] for j in range(columns)]
+    self.sketch = [[CountMinEntry(max_size) for i in range(rows)] for j in range(columns)]
 
   def get_hash_function(self, salt):
     def hash(input_data):
-      return int(hashlib.sha512(input_data.encode('utf-8') + salt.encode('utf-8')).hexdigest(), 16) % self.rows
+      return int(hashlib.md5(input_data.encode('utf-8') + salt.encode('utf-8')).hexdigest(), 16) % self.rows
     return hash
 
   def get_hashed_values(self, input_data):

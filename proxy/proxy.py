@@ -3,7 +3,7 @@ import re
 import threading
 from os import environ
 from dotenv import load_dotenv
-from count_min_sketch import Count_Min_Sketch 
+from count_min_sketch import CountMinSketch
 
 load_dotenv()
 
@@ -68,7 +68,10 @@ def request(connection, sketch):
   connection.close()
 
 def main():
-  sketch = Count_Min_Sketch(2700, 5, 3)
+  nb_hashes = 5
+  entries_per_hash = 2700
+  queue_size = 3
+  sketch = CountMinSketch(entries_per_hash, nb_hashes, queue_size)
   sock = start_socker(environ.get("SOCKET_HOST"), int(environ.get("SOCKET_PORT")))
   while True:
     connection = get_connection(sock)
